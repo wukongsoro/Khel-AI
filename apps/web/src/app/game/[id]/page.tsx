@@ -418,31 +418,33 @@ Current game: "${g?.title ?? userPrompt}"`;
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex-shrink-0 p-3 border-t border-[#E5E0D8] bg-white/40">
-            <form onSubmit={handleSend} className="flex flex-col gap-2">
-              <div className="flex items-end gap-2 rounded-xl border border-[#E5E0D8] bg-white px-3 py-2.5 focus-within:border-[#C25E43] focus-within:ring-1 focus-within:ring-[#C25E43]/30 transition-all shadow-xs">
+          <div className="flex-shrink-0 p-4 border-t border-[#E5E0D8] bg-white">
+            <form onSubmit={handleSend} className="relative">
+              <div className="flex flex-col rounded-2xl border border-[#E5E0D8] bg-[#FBF9F6]/40 focus-within:border-[#C25E43] focus-within:ring-1 focus-within:ring-[#C25E43]/20 transition-all p-3 shadow-xs">
                 <textarea
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Modify the game or describe a new one…"
-                  rows={1}
+                  placeholder="Ask Khel AI to add features, style details, or rewrite sections..."
+                  rows={2}
                   disabled={isGenerating}
-                  className="flex-1 bg-transparent text-xs text-[#191919] placeholder-gray-400 outline-none resize-none leading-relaxed"
-                  style={{ minHeight: '20px', maxHeight: '120px' }}
+                  className="w-full bg-transparent text-xs text-[#191919] placeholder-[#A09E9B] outline-none resize-none leading-relaxed min-h-[48px] max-h-[160px]"
                 />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isGenerating}
-                  className="flex-shrink-0 w-7 h-7 rounded-lg bg-[#191919] flex items-center justify-center hover:bg-[#2E2E2D] disabled:opacity-40 transition-colors cursor-pointer"
-                >
-                  <Send size={12} className="text-[#FBF9F6]" />
-                </button>
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#E5E0D8]/40">
+                  <span className="text-[10px] text-[#6E6D6A] font-mono select-none">
+                    Shift+Enter for newline
+                  </span>
+                  <button
+                    type="submit"
+                    disabled={!input.trim() || isGenerating}
+                    className="w-8 h-8 rounded-full bg-[#191919] text-[#FBF9F6] flex items-center justify-center hover:bg-[#C25E43] hover:text-white disabled:bg-[#E5E0D8] disabled:text-[#A09E9B] transition-colors cursor-pointer"
+                    title="Send message"
+                  >
+                    <Send size={13} fill="currentColor" className="ml-[1px]" />
+                  </button>
+                </div>
               </div>
-              <p className="text-[10px] text-[#6E6D6A] text-center">
-                Enter to send · Shift+Enter for new line
-              </p>
             </form>
           </div>
         </div>

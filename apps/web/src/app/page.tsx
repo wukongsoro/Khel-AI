@@ -181,27 +181,35 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="max-w-2xl mx-auto mb-6"
+            className="max-w-2xl mx-auto mb-8"
           >
-            <form onSubmit={(e) => void handlePromptSubmit(e)} className="relative">
-              <div className="flex items-center gap-3 rounded-xl border border-[#E5E0D8] bg-white px-5 py-4 focus-within:border-[#C25E43] transition-all shadow-sm">
-                <Gamepad2 size={20} className="text-[#6E6D6A] flex-shrink-0" />
-                <input
-                  type="text"
+            <form onSubmit={(e) => void handlePromptSubmit(e)}>
+              <div className="flex flex-col rounded-2xl border border-[#E5E0D8] bg-white p-4 focus-within:border-[#C25E43] focus-within:ring-1 focus-within:ring-[#C25E43]/20 transition-all shadow-sm">
+                <textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="Describe your game… e.g. a neon snake game with power-ups"
-                  className="flex-1 bg-transparent text-[#191919] placeholder-[#A09E9B] outline-none text-sm md:text-base"
+                  placeholder="Describe your game concept in detail... (e.g. a retro brick breaker with speed powerups, neon colors, and explosive particle effects)"
+                  rows={3}
                   disabled={creating}
+                  className="w-full bg-transparent text-[#191919] placeholder-[#A09E9B] outline-none text-sm leading-relaxed resize-none min-h-[72px] text-left"
                 />
-                <button
-                  type="submit"
-                  disabled={creating || !prompt.trim()}
-                  className="flex-shrink-0 rounded-lg bg-[#191919] px-4 py-2.5 text-sm font-medium text-[#FBF9F6] hover:bg-[#2E2E2D] disabled:opacity-30 disabled:bg-[#191919] transition-colors flex items-center gap-1.5"
-                >
-                  {creating ? <Sparkles size={14} className="opacity-70 animate-pulse" /> : <Send size={14} />}
-                  {creating ? 'Building…' : 'Build'}
-                </button>
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#E5E0D8]/40">
+                  <div className="flex items-center gap-1.5 text-xs text-[#6E6D6A]">
+                    <Sparkles size={13} className="text-[#C25E43]" />
+                    <span className="font-serif italic">AI game compiler engine active</span>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={creating || !prompt.trim()}
+                    className="w-10 h-10 rounded-full bg-[#191919] text-[#FBF9F6] flex items-center justify-center hover:bg-[#C25E43] hover:text-white disabled:bg-[#E5E0D8] disabled:text-[#A09E9B] transition-colors cursor-pointer"
+                  >
+                    {creating ? (
+                      <Sparkles size={16} className="animate-spin" />
+                    ) : (
+                      <Send size={15} fill="currentColor" className="ml-[1px]" />
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           </motion.div>
