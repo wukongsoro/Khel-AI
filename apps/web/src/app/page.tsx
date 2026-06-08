@@ -116,26 +116,26 @@ export default function LandingPage() {
 
   const pricing = [
     {
-      name: 'Starter',
+      name: 'Sandbox',
       price: '$0',
-      description: 'Perfect for exploring the possibilities of AI.',
-      features: ['5 games/mo', 'Basic AI generation', 'Standard Support'],
-      button: 'Get Started',
+      description: 'Test mechanics and compile retro creations.',
+      features: ['15 build runs / mo', 'Full browser testing', 'Shareable game URLs'],
+      button: 'Start Building',
       highlight: false,
     },
     {
-      name: 'Professional',
+      name: 'Developer',
       price: '$29',
-      description: 'Ideal for creators and growing teams.',
-      features: ['Unlimited games', 'Advanced AI models', 'Priority Support', 'Custom themes'],
-      button: 'Try Pro',
+      description: 'For creators, developers, and power builders.',
+      features: ['Unlimited game builds', 'Custom logic injections', 'Download source HTML', 'Dedicated engine queue'],
+      button: 'Upgrade to Dev',
       highlight: true,
     },
     {
-      name: 'Enterprise',
+      name: 'Studio',
       price: 'Custom',
-      description: 'For organizations needing maximum power.',
-      features: ['Dedicated Support', 'SLA Guarantee', 'Custom Integrations', 'Security Audit'],
+      description: 'For classrooms, studios, and custom deployments.',
+      features: ['Custom asset uploads', 'LTI educational hooks', 'Shared team folders', 'SLA support lines'],
       button: 'Contact Sales',
       highlight: false,
     },
@@ -248,28 +248,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Trusted By Section */}
-      <section className="py-16 border-y border-[#E5E0D8] bg-[#F5F2EC]/30">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-12 items-center opacity-50 grayscale hover:grayscale-0 transition-all">
-            <div className="flex justify-center font-black text-2xl italic tracking-tighter text-[#191919]">
-              OPENAI
-            </div>
-            <div className="flex justify-center font-black text-2xl tracking-tighter text-[#191919]">
-              Anthropic
-            </div>
-            <div className="flex justify-center font-black text-2xl tracking-tighter text-[#191919]">
-              Mistral
-            </div>
-            <div className="flex justify-center font-black text-2xl tracking-tighter text-[#191919]">
-              Google
-            </div>
-            <div className="flex justify-center font-black text-2xl tracking-tighter text-[#191919]">
-              Meta
-            </div>
-            <div className="flex justify-center font-black text-2xl tracking-tighter text-[#191919]">
-              NVIDIA
-            </div>
+      {/* Runtimes and Engines Section */}
+      <section className="py-12 border-y border-[#E5E0D8] bg-[#F5F2EC]/25">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] font-mono text-[#6E6D6A] mb-8">
+            SUPPORTED DESKTOP & MOBILE RUNTIMES
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 items-center max-w-4xl mx-auto text-xs font-mono font-bold text-[#6E6D6A]">
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">HTML5 Canvas</div>
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">WebGL Core</div>
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">Web Audio API</div>
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">ESLint Rules</div>
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">JSON State</div>
+            <div className="py-3 border border-[#E5E0D8]/60 rounded bg-white select-none">Vite HMR</div>
           </div>
         </div>
       </section>
@@ -325,29 +316,29 @@ export default function LandingPage() {
       </section>
 
       {/* Callout Section */}
-      <section className="py-24">
+      <section className="py-20 bg-white border-b border-[#E5E0D8]">
         <div className="container mx-auto px-4">
-          <div className="relative rounded-2xl overflow-hidden bg-[#F5F2EC] border border-[#E5E0D8] p-12 md:p-24 text-center">
-            <h2 className="text-4xl md:text-6xl font-serif font-black mb-8 text-[#191919] tracking-tight relative z-10">
-              The easiest way to build <br className="hidden md:block" /> games with AI.
+          <div className="relative rounded-xl bg-[#F5F2EC]/45 border border-[#E5E0D8] p-8 md:p-16 text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-[#191919] tracking-tight">
+              The direct path from <br /> concept to code.
             </h2>
-            <p className="text-[#6E6D6A] text-lg max-w-2xl mx-auto mb-12 relative z-10 font-serif">
-              One platform. All the AI tools. Limitless possibilities.
+            <p className="text-[#6E6D6A] text-sm md:text-base max-w-xl mx-auto mb-8 font-serif leading-relaxed">
+              Khel AI compiles natural language specifications into isolated, standards-compliant HTML5 games instantly. Playable in the browser, shareable on the web, embeddable anywhere.
             </p>
-            <div className="relative z-10 flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-6">
               <Button
                 size="lg"
                 onClick={() => router.push('/dashboard')}
-                className="bg-[#191919] text-[#FBF9F6] hover:bg-[#2E2E2D] rounded-lg px-10 py-5 text-lg font-semibold shadow-sm transition-colors"
+                className="bg-[#191919] text-[#FBF9F6] hover:bg-[#2E2E2D] rounded-lg px-8 py-4 text-sm font-semibold transition-colors cursor-pointer"
               >
                 Start building today
               </Button>
-              <div className="flex items-center gap-6 text-[#6E6D6A] font-semibold uppercase tracking-[0.15em] text-[10px]">
-                <span>No code required</span>
-                <span className="w-1 h-1 bg-[#E6E1DA] rounded-full" />
-                <span>Instant preview</span>
-                <span className="w-1 h-1 bg-[#E6E1DA] rounded-full" />
-                <span>AI powered</span>
+              <div className="flex items-center gap-6 text-[#6E6D6A] font-semibold uppercase tracking-[0.15em] text-[10px] font-mono">
+                <span>Secure Sandboxing</span>
+                <span className="w-1.5 h-1.5 bg-[#C25E43] rounded-full" />
+                <span>Instant Previews</span>
+                <span className="w-1.5 h-1.5 bg-[#C25E43] rounded-full" />
+                <span>Zero Config</span>
               </div>
             </div>
           </div>
@@ -355,16 +346,16 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-24 md:py-32">
+      <section id="pricing" className="py-24 md:py-32 bg-[#FBF9F6] border-b border-[#E5E0D8]">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-20">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-[#191919]">Transparent Pricing</h2>
-            <p className="text-[#6E6D6A] text-base">
-              Choose the plan that's right for you. All plans include access to our AI game builder.
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4 text-[#191919]">Clear Pricing Structures</h2>
+            <p className="text-[#6E6D6A] text-sm leading-relaxed max-w-md mx-auto">
+              Choose the environment that matches your scope. All memberships include standard web hosting.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {pricing.map((plan, idx) => (
               <motion.div
                 key={idx}
@@ -375,30 +366,37 @@ export default function LandingPage() {
                 className="h-full"
               >
                 <Card
-                  className={`h-full border-[#E5E0D8] bg-white ${plan.highlight ? 'ring-1 ring-[#C25E43] border-[#C25E43]' : ''} overflow-hidden relative rounded-xl shadow-none`}
+                  className={`h-full border-[#E5E0D8] bg-white ${plan.highlight ? 'border-[#C25E43]' : ''} overflow-hidden relative rounded-xl shadow-none`}
                 >
-                  {plan.highlight && (
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C25E43] to-[#D97706]" />
-                  )}
-                  <CardContent className="p-10 flex flex-col h-full">
-                    <h3 className="text-xl font-bold mb-2 text-[#191919]">{plan.name}</h3>
-                    <div className="flex items-baseline gap-1 mb-6">
-                      <span className="text-4xl font-bold text-[#191919]">{plan.price}</span>
-                      {plan.price !== 'Custom' && <span className="text-[#6E6D6A]">/mo</span>}
-                    </div>
-                    <p className="text-[#6E6D6A] text-sm mb-8">{plan.description}</p>
+                  <CardContent className="p-8 flex flex-col h-full justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-serif font-bold text-[#191919]">{plan.name}</h3>
+                        {plan.highlight && (
+                          <Badge className="bg-[#C25E43]/10 text-[#C25E43] hover:bg-[#C25E43]/10 border-0 rounded py-0.5 px-2 text-[9px] uppercase tracking-wider font-mono">
+                            Popular
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-baseline gap-1 mb-4">
+                        <span className="text-3xl font-bold text-[#191919] font-serif">{plan.price}</span>
+                        {plan.price !== 'Custom' && <span className="text-[#6E6D6A] text-xs">/mo</span>}
+                      </div>
+                      <p className="text-[#6E6D6A] text-xs mb-6 leading-relaxed">{plan.description}</p>
 
-                    <ul className="space-y-4 mb-10 flex-grow">
-                      {plan.features.map((feature, fIdx) => (
-                        <li key={fIdx} className="flex items-center gap-3 text-sm text-[#2E2E2D]">
-                          <Check className="w-4 h-4 text-[#C25E43] flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                      <ul className="space-y-3 mb-8">
+                        {plan.features.map((feature, fIdx) => (
+                          <li key={fIdx} className="flex items-center gap-2.5 text-xs text-[#2E2E2D]">
+                            <Check className="w-3.5 h-3.5 text-[#C25E43] flex-shrink-0" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
                     <Button
-                      className={`w-full rounded-lg py-4 font-semibold transition-colors ${
+                      onClick={() => router.push('/account/signin')}
+                      className={`w-full rounded-lg py-3 text-xs font-semibold transition-colors cursor-pointer ${
                         plan.highlight
                           ? 'bg-[#191919] text-[#FBF9F6] hover:bg-[#2E2E2D]'
                           : 'bg-[#F5F2EC] text-[#191919] hover:bg-[#E6E1DA]'
@@ -415,31 +413,31 @@ export default function LandingPage() {
       </section>
 
       {/* Bottom Stats */}
-      <section className="py-24 border-t border-[#E5E0D8] bg-[#F5F2EC]/30">
+      <section className="py-20 border-t border-[#E5E0D8] bg-[#F5F2EC]/20 text-[#191919]">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-4xl mx-auto">
             <div>
-              <div className="text-4xl font-black mb-2 text-[#191919] tracking-tight">99.9%</div>
-              <div className="text-[#6E6D6A] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2">
-                <Zap size={14} /> Uptime
+              <div className="text-3xl font-serif font-black mb-1 text-[#191919] tracking-tight">15s</div>
+              <div className="text-[#6E6D6A] text-[10px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 font-semibold">
+                <Zap size={12} className="text-[#C25E43]" /> Build Time
               </div>
             </div>
             <div>
-              <div className="text-4xl font-black mb-2 text-[#191919] tracking-tight">50ms</div>
-              <div className="text-[#6E6D6A] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2">
-                <Globe size={14} /> Latency
+              <div className="text-3xl font-serif font-black mb-1 text-[#191919] tracking-tight">99.4%</div>
+              <div className="text-[#6E6D6A] text-[10px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 font-semibold">
+                <Check size={12} className="text-[#C25E43]" /> Compile Rate
               </div>
             </div>
             <div>
-              <div className="text-4xl font-black mb-2 text-[#191919] tracking-tight">10M+</div>
-              <div className="text-[#6E6D6A] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2">
-                <PenTool size={14} /> Requests
+              <div className="text-3xl font-serif font-black mb-1 text-[#191919] tracking-tight">50M+</div>
+              <div className="text-[#6E6D6A] text-[10px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 font-semibold">
+                <Gamepad2 size={12} className="text-[#C25E43]" /> Game Frames
               </div>
             </div>
             <div>
-              <div className="text-4xl font-black mb-2 text-[#191919] tracking-tight">256-bit</div>
-              <div className="text-[#6E6D6A] text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2">
-                <Lock size={14} /> Encrypted
+              <div className="text-3xl font-serif font-black mb-1 text-[#191919] tracking-tight">0</div>
+              <div className="text-[#6E6D6A] text-[10px] font-mono uppercase tracking-wider flex items-center justify-center gap-1.5 font-semibold">
+                <Lock size={12} className="text-[#C25E43]" /> Setup Needed
               </div>
             </div>
           </div>

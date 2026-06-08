@@ -64,9 +64,41 @@ function SignInForm() {
     }
   };
 
-  const fillDemo = () => {
+  const handleDemoSignIn = async () => {
+    setLoading(true);
+    setError(null);
     setEmail('demo@playabl.ai');
     setPassword('Demo@12345');
+
+    const emailVal = 'demo@playabl.ai';
+    const passwordVal = 'Demo@12345';
+
+    let { error: signInError } = await authClient.signIn.email({ email: emailVal, password: passwordVal });
+
+    if (signInError) {
+      const { error: signUpError } = await authClient.signUp.email({
+        email: emailVal,
+        password: passwordVal,
+        name: 'Demo User',
+      });
+
+      if (!signUpError) {
+        const retry = await authClient.signIn.email({ email: emailVal, password: passwordVal });
+        signInError = retry.error;
+      } else {
+        signInError = signUpError;
+      }
+    }
+
+    if (signInError) {
+      setError(signInError.message ?? 'Sign in failed');
+      setLoading(false);
+      return;
+    }
+
+    if (typeof window !== 'undefined') {
+      window.location.href = callbackUrl;
+    }
   };
 
   return (
@@ -140,10 +172,13 @@ function SignInForm() {
           {/* Demo login shortcut */}
           <button
             type="button"
-            onClick={fillDemo}
-            className="w-full rounded-lg border border-[#E5E0D8] bg-[#F5F2EC] py-3 text-sm text-[#191919] hover:bg-[#E5E0D8] transition-colors flex items-center justify-center gap-2 font-medium cursor-pointer"
+            onClick={() => {
+              void handleDemoSignIn();
+            }}
+            disabled={loading}
+            className="w-full rounded-lg border border-[#E5E0D8] bg-[#F5F2EC] py-3 text-sm text-[#191919] hover:bg-[#E5E0D8] transition-colors flex items-center justify-center gap-2 font-medium cursor-pointer disabled:opacity-50"
           >
-            <Sparkles size={14} className="text-[#C25E43]" /> Try Demo Account
+            <Sparkles size={14} className="text-[#C25E43]" /> {loading ? 'Signing in…' : 'Try Demo Account'}
           </button>
 
           <p className="text-center text-sm text-[#6E6D6A]">
