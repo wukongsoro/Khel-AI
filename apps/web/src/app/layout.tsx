@@ -4,10 +4,10 @@ import "./global.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-	title: "Anything App",
-	description: "Created with Anything",
+	title: "Khel AI - Play & Create Games Instantly",
+	description: "Describe your game. Watch it come to life. Share it with the world.",
 	icons: {
-		icon: "/favicon.png",
+		icon: "/favicon.svg",
 	},
 };
 

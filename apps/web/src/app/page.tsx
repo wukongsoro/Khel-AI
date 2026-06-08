@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -40,6 +40,25 @@ export default function LandingPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = ['All', 'Brainrot', 'Dopamine', 'Idle', 'Sports', 'Think'];
+
+  // Local Like States
+  const [likedGames, setLikedGames] = useState<Record<string, boolean>>({});
+  const toggleLike = (title: string) => {
+    setLikedGames((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  // Viewport detection
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+  const [activeInteractionIndex, setActiveInteractionIndex] = useState<number | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handlePromptSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,6 +205,265 @@ export default function LandingPage() {
       highlight: false,
     },
   ];
+
+  if (isMobile) {
+    return (
+      <div className="h-screen w-screen bg-[#191919] text-[#FBF9F6] flex flex-col overflow-hidden font-sans select-none">
+        {/* Compact Top Header */}
+        <header className="h-14 bg-[#191919] border-b border-white/10 flex items-center justify-between px-4 z-40 shrink-0">
+          <div className="flex items-center gap-2">
+            <Gamepad2 size={20} className="text-[#C25E43]" />
+            <span className="font-serif font-black text-lg text-white">Khel AI</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="bg-[#C25E43] hover:bg-[#a64e36] text-white rounded-full px-3.5 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Sparkles size={12} /> Create
+            </button>
+            {session?.user ? (
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#C25E43] to-[#D97706] border border-white/20 flex items-center justify-center text-xs font-bold text-white uppercase shrink-0">
+                {(session.user.name || session.user.email || 'U')[0]}
+              </div>
+            ) : (
+              <button
+                onClick={() => router.push('/account/signin')}
+                className="text-xs font-medium text-white/80 hover:text-white"
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </header>
+
+        {/* Categories Pills bar */}
+        <div className="h-11 border-b border-white/10 bg-[#191919] flex items-center px-4 overflow-x-auto scrollbar-none gap-2 shrink-0 z-40">
+          {categories.map((category) => {
+            const isActive = selectedCategory === category;
+            return (
+              <button
+                key={category}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setActiveMobileIndex(0);
+                  setActiveInteractionIndex(null);
+                }}
+                className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap ${
+                  isActive ? 'bg-[#C25E43] text-white' : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Doom Scrolling Game Feed */}
+        <div
+          className="flex-1 overflow-y-scroll snap-y snap-mandatory scroll-smooth relative"
+          onScroll={(e) => {
+            const container = e.currentTarget;
+            const index = Math.round(container.scrollTop / container.clientHeight);
+            if (index !== activeMobileIndex && index >= 0 && index < filteredGames.length) {
+              setActiveMobileIndex(index);
+              setActiveInteractionIndex(null);
+            }
+          }}
+        >
+          {filteredGames.map((game, idx) => {
+            const isActive = activeMobileIndex === idx;
+            const isInteracting = activeInteractionIndex === idx;
+            const isLiked = likedGames[game.title] || false;
+            const baseLikes = game.stats.likes;
+            const displayLikes = isLiked ? baseLikes + 1 : baseLikes;
+
+            return (
+              <div
+                key={game.title}
+                className="w-full h-full snap-start relative flex flex-col bg-black overflow-hidden"
+              >
+                {/* Active iframe or Cover Image */}
+                {isActive ? (
+                  <div className="absolute inset-0 w-full h-full bg-[#191919]">
+                    {isInteracting ? (
+                      <iframe
+                        srcDoc={game.code}
+                        className="w-full h-full border-0 bg-white"
+                        sandbox="allow-scripts allow-same-origin"
+                        title={game.title}
+                      />
+                    ) : (
+                      <div className="relative w-full h-full">
+                        <img
+                          src={game.coverImage}
+                          className="w-full h-full object-cover opacity-60 filter blur-xs"
+                          alt={game.title}
+                        />
+                        {/* Play overlay button */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 p-6 text-center">
+                          <button
+                            onClick={() => setActiveInteractionIndex(idx)}
+                            className="w-18 h-18 rounded-full bg-[#C25E43] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+                          >
+                            <Play size={28} fill="currentColor" className="ml-1" />
+                          </button>
+                          <p className="mt-4 text-sm font-bold text-white uppercase tracking-wider">Tap to Play Game</p>
+                          <p className="mt-1.5 text-xs text-white/70 max-w-[240px] leading-relaxed">
+                            {game.description}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <img src={game.coverImage} className="w-full h-full object-cover opacity-80" alt={game.title} />
+                )}
+
+                {/* Pause/Exit Button */}
+                {isActive && isInteracting && (
+                  <button
+                    onClick={() => setActiveInteractionIndex(null)}
+                    className="absolute top-4 left-4 z-30 bg-black/60 backdrop-blur-xs text-white/90 border border-white/20 rounded-full px-3 py-1.5 text-xs font-semibold hover:bg-black/80 transition-colors cursor-pointer"
+                  >
+                    Pause Game
+                  </button>
+                )}
+
+                {/* Right Action Icons (IG style) */}
+                <div className="absolute right-4 bottom-20 z-20 flex flex-col items-center gap-5">
+                  {/* Like Button */}
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLike(game.title);
+                      }}
+                      className={`w-11 h-11 rounded-full flex items-center justify-center shadow-md backdrop-blur-md border border-white/10 transition-all active:scale-90 cursor-pointer ${
+                        isLiked ? 'bg-[#C25E43] text-white' : 'bg-black/50 text-white/90'
+                      }`}
+                    >
+                      <Heart size={18} fill={isLiked ? 'currentColor' : 'none'} />
+                    </button>
+                    <span className="text-[10px] font-semibold mt-1 shadow-xs">{displayLikes}</span>
+                  </div>
+
+                  {/* Comments */}
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert('Comments section coming soon!');
+                      }}
+                      className="w-11 h-11 rounded-full bg-black/50 text-white/90 flex items-center justify-center shadow-md backdrop-blur-md border border-white/10 cursor-pointer"
+                    >
+                      <MessageSquare size={18} />
+                    </button>
+                    <span className="text-[10px] font-semibold mt-1 shadow-xs">{game.stats.comments}</span>
+                  </div>
+
+                  {/* Restart Game */}
+                  {isActive && isInteracting && (
+                    <div className="flex flex-col items-center">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveInteractionIndex(null);
+                          setTimeout(() => setActiveInteractionIndex(idx), 50);
+                        }}
+                        className="w-11 h-11 rounded-full bg-black/50 text-white/90 flex items-center justify-center shadow-md backdrop-blur-md border border-white/10 cursor-pointer"
+                      >
+                        <Mic size={16} className="rotate-180" />
+                      </button>
+                      <span className="text-[9px] font-semibold mt-1 shadow-xs">Restart</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Details Overlay */}
+                {!isInteracting && (
+                  <div className="absolute left-4 bottom-6 right-20 z-20 pointer-events-none">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C25E43] to-[#D97706] border border-white/20 flex items-center justify-center text-xs font-bold text-white uppercase shrink-0">
+                        {game.author.name[0]}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-white truncate drop-shadow-md">@{game.author.name}</p>
+                        <p className="text-[9px] text-white/60 truncate drop-shadow-md">{game.author.date}</p>
+                      </div>
+                    </div>
+                    <h3 className="font-serif font-black text-lg text-white drop-shadow-lg mb-1 leading-tight">
+                      {game.title}
+                    </h3>
+                    <p className="text-xs text-white/80 line-clamp-2 leading-relaxed drop-shadow-md max-w-xs">
+                      {game.description}
+                    </p>
+                    <span className="inline-block mt-2 bg-[#C25E43] text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs">
+                      {game.genre}
+                    </span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bottom Create Drawer */}
+        <AnimatePresence>
+          {showCreateModal && (
+            <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs">
+              <div className="absolute inset-0" onClick={() => setShowCreateModal(false)} />
+              <motion.div
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+                className="relative w-full bg-[#FBF9F6] border-t border-[#E5E0D8] rounded-t-2xl p-4 pb-8 z-50 text-[#191919]"
+              >
+                <div className="w-12 h-1.5 bg-[#E5E0D8] rounded-full mx-auto mb-4" />
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-serif font-bold text-base text-[#191919]">Generate Game</h3>
+                  <button
+                    onClick={() => setShowCreateModal(false)}
+                    className="text-xs font-semibold text-[#6E6D6A] hover:text-[#191919]"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setShowCreateModal(false);
+                    void handlePromptSubmit(e);
+                  }}
+                >
+                  <div className="flex flex-col rounded-[20px] border border-[#E5E0D8] bg-white p-3.5 focus-within:border-[#C25E43] transition-all">
+                    <textarea
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Describe your game concept in detail..."
+                      rows={3}
+                      disabled={creating}
+                      className="w-full bg-transparent text-[#191919] placeholder-[#A09E9B] outline-none text-sm leading-relaxed resize-none text-left"
+                    />
+                    <div className="flex items-center justify-end mt-2 pt-2 border-t border-[#E5E0D8]/40">
+                      <button
+                        type="submit"
+                        disabled={creating || !prompt.trim()}
+                        className="bg-[#191919] hover:bg-[#C25E43] text-white disabled:bg-[#E5E0D8] disabled:text-[#A09E9B] rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer"
+                      >
+                        {creating ? 'Creating...' : 'Submit'}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FBF9F6] text-[#191919] selection:bg-[#C25E43]/20 font-sans">
