@@ -159,10 +159,10 @@ export default function DashboardPage() {
               className="flex items-center gap-2 rounded-full border border-[#E5E0D8] bg-[#F5F2EC]/40 px-3 py-1.5 text-sm text-[#191919] hover:bg-[#F5F2EC] transition-colors font-medium cursor-pointer"
             >
               <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#C25E43] to-[#D97706] flex items-center justify-center text-[10px] font-bold text-white">
-                {(session.user.name || session.user.email || 'U')[0].toUpperCase()}
+                {(session?.user?.name || session?.user?.email || 'U')[0].toUpperCase()}
               </div>
               <span className="hidden md:block text-sm">
-                {session.user.name || session.user.email}
+                {session?.user?.name || session?.user?.email}
               </span>
               <ChevronDown size={12} className="text-[#6E6D6A]" />
             </button>
