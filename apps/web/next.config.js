@@ -4,6 +4,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    // Next.js 16 acquires a build lock at .next/lock via a native binding that
+    // throws ENOENT on Vercel's build filesystem. Disable it — we never run
+    // concurrent builds in CI, so the lock provides no benefit here.
+    lockDistDir: false,
+  },
   env: {
     NEXT_PUBLIC_CREATE_BASE_URL: process.env.NEXT_PUBLIC_CREATE_BASE_URL,
     NEXT_PUBLIC_CREATE_HOST: process.env.NEXT_PUBLIC_CREATE_HOST,

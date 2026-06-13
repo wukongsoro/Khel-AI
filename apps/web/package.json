@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --port 4000",
-		"build": "mkdir -p .next && next build --webpack",
+		"build": "next build --webpack",
 		"start": "next start",
 		"typecheck": "tsc --noEmit"
 	},
